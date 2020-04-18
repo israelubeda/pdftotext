@@ -1,0 +1,22 @@
+pool:
+  vmImage: "macOS-10.15"
+strategy:
+  matrix:
+    Python27:
+      python.version: "2.7"
+    Python38:
+      python.version: "3.8"
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "$(python.version)"
+    displayName: "Use Python $(python.version)"
+
+  - script: brew install pkg-config poppler
+    displayName: "Install dependencies"
+
+  - script: |
+      python --version
+      python setup.py test
+    displayName: "Test"
